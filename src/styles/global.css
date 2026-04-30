@@ -16,14 +16,18 @@
 	--gray-dark: 34, 41, 57;
 	--gray-gradient: rgba(var(--gray-light), 50%), #fff;
 
-	/* 语义色 */
+	/* 语义色 - 参考 Zenn 的分层背景体系 */
 	--color-border: #d6e3ed;
+	--color-border-lighter: #e4edf4;
 	--color-border-emphasis: #8f9faa;
+	--color-bg-outer: #edf2f7;
+	--color-bg-inner: #fff;
 	--color-bg-dim: #edf2f7;
 	--color-bg-code: #edf2f7;
 	--color-bg-code-block: #1a2638;
 	--color-text-body: rgb(0 0 0 / 82%);
 	--color-text-subtle: #65717b;
+	--color-text-low: #8f9faa;
 	--color-text-link: #0f83fd;
 
 	/* 阴影 */
