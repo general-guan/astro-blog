@@ -1,81 +1,92 @@
 /*
-  The CSS in this style tag is based off of Bear Blog's default CSS.
-  https://github.com/HermanMartinus/bearblog/blob/297026a877bc2ab2b3bdfbd6b9f7961c350917dd/templates/styles/blog/default.css
-  License MIT: https://github.com/HermanMartinus/bearblog/blob/master/LICENSE.md
+  Global styles inspired by Zenn.dev's clean typography.
+  Original Bear Blog CSS replaced with Zenn-style design system.
  */
 
 :root {
-	--accent: #2337ff;
-	--accent-dark: #000d8a;
+	/* 主色调 - 参考 Zenn 的蓝色系 */
+	--accent: #0f83fd;
+	--accent-dark: #0868ce;
+	--accent-light: #3ea8ff;
+
+	/* 灰度系统 - 对齐 Zenn 的 gray scale */
 	--black: 15, 18, 25;
-	--gray: 96, 115, 159;
-	--gray-light: 229, 233, 240;
+	--gray: 101, 113, 123;
+	--gray-light: 237, 242, 247;
 	--gray-dark: 34, 41, 57;
 	--gray-gradient: rgba(var(--gray-light), 50%), #fff;
+
+	/* 语义色 */
+	--color-border: #d6e3ed;
+	--color-border-emphasis: #8f9faa;
+	--color-bg-dim: #edf2f7;
+	--color-bg-code: #edf2f7;
+	--color-bg-code-block: #1a2638;
+	--color-text-body: rgb(0 0 0 / 82%);
+	--color-text-subtle: #65717b;
+	--color-text-link: #0f83fd;
+
+	/* 阴影 */
 	--box-shadow:
-		0 2px 6px rgba(var(--gray), 25%), 0 8px 24px rgba(var(--gray), 33%),
-		0 16px 32px rgba(var(--gray), 33%);
+		0 2px 6px rgba(var(--gray), 15%),
+		0 8px 24px rgba(var(--gray), 20%);
+
+	/* 代码字体 */
+	--font-code: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
 }
+
 body {
 	font-family: var(--font-atkinson);
 	margin: 0;
 	padding: 0;
 	text-align: left;
-	background: linear-gradient(var(--gray-gradient)) no-repeat;
+	background: var(--gray-gradient) no-repeat;
 	background-size: 100% 600px;
 	word-wrap: break-word;
 	overflow-wrap: break-word;
-	color: rgb(var(--gray-dark));
-	font-size: 20px;
-	line-height: 1.7;
+	color: var(--color-text-body);
+	font-size: 16px;
+	line-height: 1.8;
 }
+
 main {
 	width: 720px;
 	max-width: calc(100% - 2em);
 	margin: auto;
 	padding: 3em 1em;
 }
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+
+/* 标题 - 参考 Zenn .znc 的标题层级 */
+h1, h2, h3, h4, h5, h6 {
 	margin: 0 0 0.5rem 0;
 	color: rgb(var(--black));
-	line-height: 1.2;
-}
-h1 {
-	font-size: 3.052em;
-}
-h2 {
-	font-size: 2.441em;
-}
-h3 {
-	font-size: 1.953em;
-}
-h4 {
-	font-size: 1.563em;
-}
-h5 {
-	font-size: 1.25em;
-}
-strong,
-b {
+	line-height: 1.5;
 	font-weight: 700;
 }
+h1 { font-size: 1.7em; }
+h2 { font-size: 1.5em; }
+h3 { font-size: 1.3em; }
+h4 { font-size: 1.1em; }
+h5 { font-size: 1em; }
+h6 { font-size: 0.9em; }
+
+strong, b {
+	font-weight: 700;
+}
+
 a {
-	color: var(--accent);
+	color: var(--color-text-link);
+	text-decoration: none;
+	text-underline-offset: 0.15em;
 }
 a:hover {
-	color: var(--accent);
+	text-decoration: underline;
 }
+
 p {
 	margin-bottom: 1em;
 }
-.prose p {
-	margin-bottom: 2em;
-}
+
 textarea {
 	width: 100%;
 	font-size: 16px;
@@ -83,42 +94,137 @@ textarea {
 input {
 	font-size: 16px;
 }
-table {
-	width: 100%;
-}
+
 img {
 	max-width: 100%;
 	height: auto;
 	border-radius: 8px;
 }
+
+/* 行内代码 - 参考 Zenn .znc code */
 code {
-	padding: 2px 5px;
-	background-color: rgb(var(--gray-light));
-	border-radius: 2px;
+	padding: 0.2em 0.4em;
+	margin: 0 0.2em;
+	background-color: var(--color-bg-code);
+	border-radius: 4px;
+	font-family: var(--font-code);
+	font-size: 0.85em;
+	vertical-align: 0.08em;
+	-webkit-font-smoothing: antialiased;
 }
+
+/* 代码块 - 参考 Zenn .znc pre */
 pre {
-	padding: 1.5em;
-	border-radius: 8px;
+	margin: 1.3rem 0;
+	background: var(--color-bg-code-block);
+	overflow-x: auto;
+	-webkit-overflow-scrolling: touch;
+	border-radius: 4px;
+	word-break: normal;
+	word-wrap: normal;
+	display: flex;
 }
 pre > code {
 	all: unset;
+	display: block;
+	padding: 1.1rem;
+	font-family: var(--font-code);
+	font-size: 0.9em;
+	color: #fff;
+	-webkit-font-smoothing: antialiased;
 }
+
+/* 引用块 - 参考 Zenn .znc blockquote */
 blockquote {
-	border-left: 4px solid var(--accent);
-	padding: 0 0 0 20px;
-	margin: 0;
-	font-size: 1.333em;
+	font-size: 0.97em;
+	margin: 1.4rem 0;
+	border-left: 3px solid var(--color-border-emphasis);
+	padding: 2px 0 2px 0.7em;
+	color: var(--color-text-subtle);
 }
+blockquote p {
+	margin: 1rem 0;
+}
+blockquote > :first-child {
+	margin-top: 0;
+}
+blockquote > :last-child {
+	margin-bottom: 0;
+}
+
+/* 表格 - 参考 Zenn .znc table */
+table {
+	margin: 1.2rem auto;
+	width: auto;
+	border-collapse: collapse;
+	font-size: 0.95em;
+	line-height: 1.5;
+	word-break: normal;
+	display: block;
+	overflow: auto;
+	-webkit-overflow-scrolling: touch;
+}
+th, td {
+	padding: 0.5rem;
+	border: 1px solid var(--color-border);
+}
+th {
+	font-weight: 700;
+	background: var(--color-bg-dim);
+}
+
+/* 分割线 - 参考 Zenn .znc hr */
 hr {
 	border: none;
-	border-top: 1px solid rgb(var(--gray-light));
+	border-top: 1px solid var(--color-border);
+	margin: 2.5rem 0;
 }
+
+/* 列表 - 参考 Zenn .znc ul/ol */
+.prose ul,
+.prose ol {
+	margin: 1.4rem 0;
+	line-height: 1.7;
+}
+.prose ul {
+	padding-left: 1.8em;
+}
+.prose ul > li {
+	list-style: disc;
+	margin: 0.4rem 0;
+}
+.prose ul > li::marker {
+	font-size: 1.1em;
+	color: var(--color-text-subtle);
+}
+.prose ol {
+	padding-left: 1.7em;
+}
+.prose ol > li {
+	list-style: decimal;
+	padding-left: 0.2em;
+	margin: 0.4rem 0;
+}
+.prose ol > li::marker {
+	color: var(--color-text-subtle);
+	font-weight: 600;
+}
+
 @media (max-width: 720px) {
 	body {
-		font-size: 18px;
+		font-size: 15px;
 	}
 	main {
 		padding: 1em;
+	}
+	h1 { font-size: 1.6em; }
+	h2 { font-size: 1.4em; }
+	h3 { font-size: 1.2em; }
+}
+
+@media (max-width: 400px) {
+	body {
+		font-size: 15px;
 	}
 }
 
@@ -130,12 +236,8 @@ hr {
 	height: 1px;
 	width: 1px;
 	overflow: hidden;
-	/* IE6, IE7 - a 0 height clip, off to the bottom right of the visible 1px box */
 	clip: rect(1px 1px 1px 1px);
-	/* maybe deprecated but we need to support legacy browsers */
 	clip: rect(1px, 1px, 1px, 1px);
-	/* modern browsers, clip-path works inwards from each corner */
 	clip-path: inset(50%);
-	/* added line to stop words getting smushed together (as they go onto separate lines and some screen readers do not understand line feeds as a space */
 	white-space: nowrap;
 }
