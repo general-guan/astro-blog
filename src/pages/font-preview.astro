@@ -1,0 +1,301 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+
+const fonts = [
+	{
+		name: '思源黑体 / Noto Sans SC',
+		css: '"Noto Sans SC", sans-serif',
+		tag: 'Google Fonts',
+		tagType: 'free',
+		desc: '最热门的中文无衬线字体，Google 与 Adobe 合作开发，覆盖全部简体中文字符。干净现代，适合技术博客和知识库。',
+	},
+	{
+		name: '霞鹜文楷 / LXGW WenKai',
+		css: '"LXGW WenKai", cursive',
+		tag: '开源 · GitHub 18k+ ⭐',
+		tagType: 'free',
+		desc: '中文博客圈最受欢迎的开源字体，基于 FONTWORKS Klee One 衍生。手写楷体风格，温暖文艺，阅读体验极佳。',
+	},
+	{
+		name: '思源宋体 / Noto Serif SC',
+		css: '"Noto Serif SC", serif',
+		tag: 'Google Fonts',
+		tagType: 'free',
+		desc: '经典衬线字体，适合长文阅读。有书卷气，搭配技术内容能营造沉稳专业的感觉。',
+	},
+	{
+		name: '霞鹜文楷屏幕版 / LXGW WenKai Screen',
+		css: '"LXGW WenKai Screen", cursive',
+		tag: '开源 · 屏幕优化',
+		tagType: 'free',
+		desc: '霞鹜文楷的屏幕阅读优化版，笔画经过微调，小字号下更清晰锐利。适合正文大量阅读场景。',
+	},
+	{
+		name: '站酷小薇体 / ZCOOL XiaoWei',
+		css: '"ZCOOL XiaoWei", serif',
+		tag: 'Google Fonts',
+		tagType: 'free',
+		desc: '站酷出品，笔触灵动有辨识度，适合标题和 Logo。设计师李大卫为女儿"小薇"三岁生日创作。',
+	},
+	{
+		name: '站酷快乐体 / ZCOOL KuaiLe',
+		css: '"ZCOOL KuaiLe", sans-serif',
+		tag: 'Google Fonts',
+		tagType: 'free',
+		desc: '圆润可爱的展示字体，适合轻松活泼的博客风格。笔画饱满，个性鲜明。',
+	},
+	{
+		name: '马善政毛笔楷书 / Ma Shan Zheng',
+		css: '"Ma Shan Zheng", cursive',
+		tag: 'Google Fonts',
+		tagType: 'free',
+		desc: '毛笔楷书风格，适合中国风主题或作为标题装饰字体。笔锋明显，古典韵味浓厚。',
+	},
+	{
+		name: '站酷文艺体 / ZCOOL QingKe HuangYou',
+		css: '"ZCOOL QingKe HuangYou", sans-serif',
+		tag: 'Google Fonts',
+		tagType: 'free',
+		desc: '站酷出品的文艺风格字体，笔画带有手写感。适合创意类博客标题和个性化展示。',
+	},
+	{
+		name: '龙藏体 / Long Cang',
+		css: '"Long Cang", cursive',
+		tag: 'Google Fonts',
+		tagType: 'free',
+		desc: '手写行书风格，笔触自然流畅。适合个人博客的引用、签名或装饰性文字。',
+	},
+	{
+		name: '钉钉进步体 / DingTalk JinBuTi',
+		css: '"DingTalk JinBuTi", sans-serif',
+		tag: '开源免费',
+		tagType: 'free',
+		desc: '阿里钉钉出品的免费商用字体，现代几何风格黑体。笔画简洁有力，适合科技类内容。',
+	},
+	{
+		name: 'IBM Plex Sans JP',
+		css: '"IBM Plex Sans JP", sans-serif',
+		tag: 'Google Fonts',
+		tagType: 'free',
+		desc: 'IBM 定制字体的日文版，机械横竖笔画搭配人文曲线。科技感与可读性兼备，CJK 字符覆盖良好。',
+	},
+	{
+		name: '系统字体栈（Zenn 同款）',
+		css: 'system-ui, -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif',
+		tag: '零加载成本',
+		tagType: 'system',
+		desc: '不加载任何字体文件，直接使用操作系统自带字体。macOS 显示苹方，Windows 显示微软雅黑。加载最快。',
+	},
+	{
+		name: 'Zen Maru Gothic',
+		css: '"Zen Maru Gothic", sans-serif',
+		tag: 'Google Fonts',
+		tagType: 'free',
+		desc: '日本设计师大平善道作品，圆润柔和的哥特体。比一般圆体更圆润，带有日式优雅感，CJK 字符支持好。',
+	},
+	{
+		name: 'Zen Old Mincho',
+		css: '"Zen Old Mincho", serif',
+		tag: 'Google Fonts',
+		tagType: 'free',
+		desc: '传承日本排版美学的明朝体，清晰精致，5 种字重可选。适合追求传统排版质感的知识库和长文。',
+	},
+];
+---
+
+<html lang="zh-CN">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1" />
+		<title>中文字体预览 · 14 种免费方案对比</title>
+
+		<!-- Google Fonts -->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+JP:wght@400;700&family=Long+Cang&family=Ma+Shan+Zheng&family=Noto+Sans+SC:wght@400;700&family=Noto+Serif+SC:wght@400;700&family=ZCOOL+KuaiLe&family=ZCOOL+QingKe+HuangYou&family=ZCOOL+XiaoWei&family=Zen+Maru+Gothic:wght@400;700&family=Zen+Old+Mincho:wght@400;700&display=swap"
+			rel="stylesheet"
+		/>
+
+		<!-- 霞鹜文楷 -->
+		<link
+			href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.css"
+			rel="stylesheet"
+		/>
+		<!-- 霞鹜文楷屏幕版 -->
+		<link
+			href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css"
+			rel="stylesheet"
+		/>
+
+		<!-- 钉钉进步体 (fontsource CDN) -->
+		<style>
+			@font-face {
+				font-family: 'DingTalk JinBuTi';
+				font-style: normal;
+				font-weight: 400;
+				font-display: swap;
+				src: url('https://cdn.jsdelivr.net/gh/nickyam/DingTalk-JinBuTi/DingTalkJinBuTi-Regular.woff2') format('woff2');
+			}
+		</style>
+
+		<style>
+			body {
+				font-family: system-ui, sans-serif;
+				margin: 0;
+				padding: 0;
+				background: linear-gradient(rgba(229, 233, 240, 0.5), #fff) no-repeat;
+				background-size: 100% 600px;
+				color: rgb(34, 41, 57);
+			}
+			main {
+				max-width: 860px;
+				margin: 0 auto;
+				padding: 2em 1em 4em;
+			}
+			h1 {
+				text-align: center;
+				margin-bottom: 0.3em;
+				font-size: 2em;
+			}
+			.subtitle {
+				text-align: center;
+				color: rgb(96, 115, 159);
+				margin-bottom: 2.5em;
+				line-height: 1.6;
+			}
+			.font-card {
+				border: 1px solid rgb(229, 233, 240);
+				border-radius: 12px;
+				padding: 1.8em 2em;
+				margin-bottom: 1.5em;
+				background: #fff;
+				box-shadow: 0 2px 8px rgba(96, 115, 159, 0.06);
+				transition: box-shadow 0.2s;
+			}
+			.font-card:hover {
+				box-shadow: 0 4px 20px rgba(96, 115, 159, 0.15);
+			}
+			.font-card-header {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				margin-bottom: 0.8em;
+				padding-bottom: 0.7em;
+				border-bottom: 1px solid rgb(229, 233, 240);
+				flex-wrap: wrap;
+				gap: 0.5em;
+			}
+			.font-meta {
+				display: flex;
+				align-items: baseline;
+				gap: 0.8em;
+				flex-wrap: wrap;
+			}
+			.font-name {
+				font-size: 1.1em;
+				font-weight: 700;
+				color: rgb(15, 18, 25);
+			}
+			.font-rank {
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+				width: 1.6em;
+				height: 1.6em;
+				border-radius: 50%;
+				background: rgb(15, 18, 25);
+				color: #fff;
+				font-size: 0.75em;
+				font-weight: 700;
+				flex-shrink: 0;
+			}
+			.font-tag {
+				font-size: 0.78em;
+				padding: 0.2em 0.7em;
+				border-radius: 20px;
+				background: rgba(35, 55, 255, 0.08);
+				color: #2337ff;
+				white-space: nowrap;
+			}
+			.font-tag.system {
+				background: rgba(96, 115, 159, 0.1);
+				color: rgb(96, 115, 159);
+			}
+			.font-desc {
+				font-size: 0.88em;
+				color: rgb(96, 115, 159);
+				margin-bottom: 1.2em;
+				line-height: 1.7;
+			}
+			.sample-title {
+				font-size: 1.5em;
+				font-weight: 700;
+				margin-bottom: 0.5em;
+				line-height: 1.4;
+			}
+			.sample-body {
+				font-size: 1em;
+				line-height: 1.9;
+				margin-bottom: 0.8em;
+			}
+			.sample-mixed {
+				font-size: 0.92em;
+				line-height: 1.8;
+				color: rgb(60, 70, 90);
+				padding: 0.8em 1em;
+				background: rgb(246, 247, 249);
+				border-radius: 8px;
+			}
+			.sample-mixed code {
+				font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+				font-size: 0.88em;
+				background: rgba(35, 55, 255, 0.06);
+				padding: 0.15em 0.4em;
+				border-radius: 3px;
+			}
+			@media (max-width: 720px) {
+				main { padding: 1em; }
+				.font-card { padding: 1.2em; }
+				.sample-title { font-size: 1.25em; }
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<h1>中文字体预览</h1>
+			<p class="subtitle">
+				14 种免费中文 Web 字体方案，按热度排序<br />
+				适合博客 + 知识库场景，选一个你喜欢的
+			</p>
+
+			{fonts.map((font, i) => (
+				<div class="font-card">
+					<div class="font-card-header">
+						<div class="font-meta">
+							<span class="font-rank">{i + 1}</span>
+							<span class="font-name">{font.name}</span>
+						</div>
+						<span class:list={['font-tag', { system: font.tagType === 'system' }]}>
+							{font.tag}
+						</span>
+					</div>
+					<div class="font-desc">{font.desc}</div>
+					<div class="sample-title" style={`font-family: ${font.css};`}>
+						构建你的个人知识库：从零开始搭建博客系统
+					</div>
+					<div class="sample-body" style={`font-family: ${font.css};`}>
+						在信息爆炸的时代，拥有一个属于自己的知识库变得越来越重要。它不仅是记录学习笔记的地方，更是整理思维、沉淀经验的工具。本文将介绍如何使用 Astro 框架快速搭建一个高性能的静态博客，支持 Markdown 写作、RSS 订阅和全文搜索。
+					</div>
+					<div class="sample-mixed" style={`font-family: ${font.css};`}>
+						使用 <code>pnpm create astro@latest</code> 初始化项目，配置 TypeScript strict 模式。部署到 Vercel 后，Lighthouse 性能评分可达 98+。中英文混排效果：The quick brown fox jumps over the lazy dog. 数字与标点：2026 年 4 月 30 日（周四）
+					</div>
+				</div>
+			))}
+		</main>
+		<Footer />
+	</body>
+</html>
