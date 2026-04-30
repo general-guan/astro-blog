@@ -5,10 +5,19 @@ import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
+import TableOfContents from '../components/TableOfContents.astro';
 
-type Props = CollectionEntry<'blog'>['data'];
+interface Heading {
+	depth: number;
+	slug: string;
+	text: string;
+}
 
-const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+type Props = CollectionEntry<'blog'>['data'] & {
+	headings?: Heading[];
+};
+
+const { title, description, pubDate, updatedDate, heroImage, headings = [] } = Astro.props;
 ---
 
 <html lang="zh-CN">
@@ -30,19 +39,23 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 			/* 外层容器 - 浅灰背景 */
 			.article-outer {
 				background: var(--color-bg-outer);
-				border-top: 1px solid var(--color-border-lighter);
 				padding: 0 0 4rem;
 			}
 
-			/* 文章头部 - 大留白，居中标题 */
+			/* 文章头部 - 大留白，居中标题，浅灰背景 */
 			.article-header {
+				max-width: 100%;
+				background: var(--color-bg-outer);
+				border-top: 1px solid var(--color-border-lighter);
+			}
+			.article-header-inner {
 				max-width: 820px;
 				margin: 0 auto;
 				padding: 3.8rem 40px 3.5rem;
 				text-align: center;
 				line-height: 1.4;
 			}
-			.article-header h1 {
+			.article-header-inner h1 {
 				display: inline-block;
 				max-width: 780px;
 				font-size: 2em;
@@ -67,12 +80,43 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 			/* 文章卡片 - 白色背景 + 边框 + 圆角 */
 			.article-card {
 				max-width: 820px;
-				margin: 0 auto;
 				background: var(--color-bg-inner);
 				border: 1px solid var(--color-border-lighter);
 				border-radius: 4px;
 				padding: 2.5rem 40px;
 				font-size: 16px;
+			}
+
+			/* 双栏布局：文章 + TOC 侧边栏 */
+			.columns-container {
+				display: flex;
+				justify-content: center;
+				gap: 1.5rem;
+				max-width: 1200px;
+				margin: 0 auto;
+				padding: 0 40px;
+			}
+
+			/* 文章主体区域 */
+			.content-column {
+				flex: 1;
+				max-width: 820px;
+				min-width: 0;
+			}
+
+			/* TOC 侧边栏 */
+			.sidebar-column {
+				width: 260px;
+				flex-shrink: 0;
+			}
+
+			@media (max-width: 1100px) {
+				.sidebar-column {
+					display: none;
+				}
+				.columns-container {
+					padding: 0;
+				}
 			}
 
 			/* 头图 */
@@ -104,6 +148,16 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 			.prose :global(p) {
 				margin-bottom: 0;
 				margin-top: 0;
+			}
+
+			/* 标题锚点滚动偏移 - 点击 TOC 时标题不贴顶 */
+			.prose :global(h1[id]),
+			.prose :global(h2[id]),
+			.prose :global(h3[id]),
+			.prose :global(h4[id]),
+			.prose :global(h5[id]),
+			.prose :global(h6[id]) {
+				scroll-margin-top: 4rem;
 			}
 
 			/* 标题层级 - 参考 Zenn .znc h1-h6 */
@@ -325,15 +379,15 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 
 			/* 响应式 */
 			@media (max-width: 992px) {
-				.article-header {
+				.article-header-inner {
 					padding: 3.4rem 40px 3.2rem;
 				}
 			}
 			@media (max-width: 768px) {
-				.article-header {
+				.article-header-inner {
 					padding: 2.5rem 25px 2rem;
 				}
-				.article-header h1 {
+				.article-header-inner h1 {
 					font-size: 1.6em;
 				}
 				.article-card {
@@ -341,10 +395,10 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 				}
 			}
 			@media (max-width: 576px) {
-				.article-header {
+				.article-header-inner {
 					padding: 2rem 20px 1.5rem;
 				}
-				.article-header h1 {
+				.article-header-inner h1 {
 					font-size: 1.5em;
 				}
 				.article-card {
@@ -362,7 +416,7 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 				}
 			}
 			@media (max-width: 400px) {
-				.article-header {
+				.article-header-inner {
 					padding: 1.5rem 14px 1.2rem;
 				}
 				.article-card {
@@ -375,30 +429,41 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 	<body>
 		<Header />
 		<main>
-			<!-- 文章标题区 - 大留白 -->
+			<!-- 文章标题区 - 大留白，浅灰背景 -->
 			<div class="article-header">
-				<h1>{title}</h1>
-				<div class="article-meta">
-					<FormattedDate date={pubDate} />
-					{
-						updatedDate && (
-							<span class="last-updated-on">
-								· 更新于 <FormattedDate date={updatedDate} />
-							</span>
-						)
-					}
+				<div class="article-header-inner">
+					<h1>{title}</h1>
+					<div class="article-meta">
+						<FormattedDate date={pubDate} />
+						{
+							updatedDate && (
+								<span class="last-updated-on">
+									· 更新于 <FormattedDate date={updatedDate} />
+								</span>
+							)
+						}
+					</div>
 				</div>
 			</div>
 
-			<!-- 文章正文卡片 -->
+			<!-- 文章正文 + TOC 双栏 -->
 			<div class="article-outer">
-				<div class="article-card">
-					<div class="hero-image">
-						{heroImage && <Image width={1020} height={510} src={heroImage} alt="" />}
+				<div class="columns-container">
+					<div class="content-column">
+						<div class="article-card">
+							<div class="hero-image">
+								{heroImage && <Image width={1020} height={510} src={heroImage} alt="" />}
+							</div>
+							<div class="prose">
+								<slot />
+							</div>
+						</div>
 					</div>
-					<div class="prose">
-						<slot />
-					</div>
+					{headings.length > 0 && (
+						<aside class="sidebar-column">
+							<TableOfContents headings={headings} />
+						</aside>
+					)}
 				</div>
 			</div>
 		</main>
